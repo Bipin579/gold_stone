@@ -1,0 +1,35 @@
+version: "3"
+services:
+  react-app:
+    build:
+      context: ./frontend  # Specify the path to the React app directory
+      dockerfile: Dockerfile  # Use the default Dockerfile name for the React app
+    stdin_open: true
+    ports: 
+      - "3000:3000"
+    networks:
+      - mern-app
+  api-server:
+    build:
+      context: ./backend  # Specify the path to the API server directory
+      dockerfile: Dockerfile  # Use the default Dockerfile name for the API server
+    ports:
+      - "8080:8080"
+    networks:
+      - mern-app
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:4.4  # Use a more recent MongoDB version if desired
+    ports:
+      - "27017:27017"
+    networks:
+      - mern-app
+    volumes:
+      - mongo-data:/data/db
+networks:
+  mern-app:
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local

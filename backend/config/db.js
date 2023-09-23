@@ -6,7 +6,7 @@ require("dotenv").config();
 
 exports.connectMongoose = () => {
   mongoose
-    .connect(process.env.mongoURL)
+    .connect('mongodb://172.17.0.1:27017/app')
     .then((e) => {
       console.log(`Connected to mongoDB: ${e.connection.host}`);
     })
